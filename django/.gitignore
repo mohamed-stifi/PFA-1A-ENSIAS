@@ -1,0 +1,4 @@
+article_table.csv
+topic_table.csv
+topics_faiss_index.pickle
+articles_faiss_index.pickle

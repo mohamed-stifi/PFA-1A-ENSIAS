@@ -1,0 +1,68 @@
+<!-- recommended.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommended</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+</head>
+<body>
+    <h1>Recommended Results</h1>
+    <!-- Search Form for Topics -->
+    <div class="d-flex justify-content-center align-items-end vh-10">
+        <form class="form-inline mb-4" method="POST">
+            <div class="form-group mr-2">
+                <label for="search_topic" class="sr-only">Search Topics:</label>
+                {% csrf_token %}
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="btn btn-primary">Search Topics</button>
+        </form>
+    </div>
+
+    
+
+    <!-- Topics List -->
+    <div class="row">
+        {% for topic in topics_r %}
+            <div class="col-lg-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ topic.topic_title }}</h5>
+
+                        <a href= "">{{topic.score}}</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col">
+                <p>No topics found.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Articles List -->
+    <div class="row">
+        {% for article in articles_r %}
+            <div class="col-lg-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ article.article_title }}</h5>
+
+                        <a href= "">{{article.score}}</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col">
+                <p>No topics found.</p>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <h2>{{articles_results}}</h2>
+</body>
+</html>

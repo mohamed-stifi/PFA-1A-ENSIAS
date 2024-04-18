@@ -1,0 +1,73 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+{% load customizers %}
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .highlight{
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-4">
+    <h1>{{ title }}</h1>
+
+    <!-- Topics List -->
+    <div class="row">
+        {% for topic in page_obj %}
+            <div class="col-lg-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ topic.topic_title|highlight_search:search_term }}</h5>
+                        <!-- Additional fields or actions can be displayed here -->
+                        <a href="{% url 'articles' topic.topic_id %}">more</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col">
+                <p>No topics found.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Search Form for Topics -->
+    <div class="d-flex justify-content-center align-items-end vh-10">
+        <form class="form-inline mb-4">
+            <div class="form-group mr-2">
+                <label for="search_topic" class="sr-only">Search Topics:</label>
+                {{ search_filter_topic.form.topic_title }}
+            </div>
+            <button type="submit" class="btn btn-primary">Search Topics</button>
+        </form>
+    </div>
+
+
+    <!-- Pagination Links -->
+    <nav aria-label="Topics Pagination">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+            {% endif %}
+            <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }} <span class="sr-only">(current)</span></a></li>
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

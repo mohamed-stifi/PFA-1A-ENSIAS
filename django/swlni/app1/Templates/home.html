@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot UI</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/chatbot.css' %}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Chatbot</h1>
+        </div>
+
+        <!-- Chat History Display -->
+        <div class="chat-history">
+            {% for message in chat_history %}
+                <div class="message {% if message.sender == 'user' %}user{% else %}bot{% endif %}">
+                    <p>{{ message.content }}</p>
+                    <span class="timestamp">{{ message.timestamp }}</span>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Input Field and Submit Button -->
+        <form class="message-form" method="POST" action="{% url 'submit_message' %}">
+            {% csrf_token %}
+            <input type="text" name="message" placeholder="Type your message here..." required>
+            <button type="submit">Send</button>
+            <input type="file" id="attachment" name="attachment" accept="image/*, .pdf, .doc, .docx">
+        </form>
+
+        <!-- Options Menu -->
+        <div class="options-menu">
+            <button class="menu-button">Options</button>
+            <div class="dropdown-content">
+                <a href="#">Settings</a>
+                <a href="#">Help</a>
+            </div>
+        </div>
+
+        <!-- User Feedback Mechanism -->
+        <form class="feedback-form" method="POST" action="{% url 'submit_feedback' %}">
+            {% csrf_token %}
+            <textarea name="feedback" placeholder="Provide your feedback..." required></textarea>
+            <button type="submit">Submit Feedback</button>
+        </form>
+    </div>
+</body>
+</html>
